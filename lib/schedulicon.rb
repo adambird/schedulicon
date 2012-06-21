@@ -3,6 +3,7 @@ module Schedulicon
   require 'schedulicon/day_of_week'
   require 'schedulicon/day_in_month'
   require 'schedulicon/schedule'
+  require 'schedulicon/attributes'
 
   # Days of the week
   MONDAY = 1
