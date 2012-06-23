@@ -16,9 +16,11 @@ module Schedulicon
 
     attr_accessor :frequency, :day_of_week, :start_at, :end_on
 
-    def initialize
-      @frequency = :every
-      @day_of_week = Schedulicon::MONDAY
+    def initialize(attrs={})
+      @frequency = attrs[:frequency] || :every
+      @day_of_week = attrs[:day_of_week] || Schedulicon::MONDAY
+      @start_at = attrs[:start_at]
+      @end_on = attrs[:end_on]
     end
 
     # Public: Hash of attributes that can be used to deserialise item from
