@@ -71,8 +71,14 @@ module Schedulicon
       return false unless other
       return false unless other.respond_to?(:frequency) && other.frequency == frequency
       return false unless other.respond_to?(:day_of_week) && other.day_of_week == day_of_week
-      return false unless other.respond_to?(:start_at) && other.start_at == start_at
-      return false unless other.respond_to?(:end_on) && other.end_on == end_on
+      return false unless time_attribute_equal(other, :start_at)
+      return false unless time_attribute_equal(other, :end_on)
+      true
+    end
+    
+    def time_attribute_equal(other, name)
+      return false unless other.respond_to? name
+      return other.send(name).utc == self.send(name).utc if other.send(name) && self.send(name)
       true
     end
   end
