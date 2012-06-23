@@ -136,4 +136,30 @@ describe Schedule do
       end
     end
   end
+  
+  describe "#==" do
+    before(:each) do
+      @start_at = random_time
+      @schedule = Schedule.new(:frequency => :second, :day_of_week => Schedulicon::SATURDAY, :start_at => @start_at)
+    end
+    
+    subject { @schedule == @other }
+    
+    context "when other is nil" do
+      before(:each) do
+        @other = nil
+      end
+      it "is false" do
+        subject.should eq(false)
+      end
+    end
+    context "when other is equal" do
+      before(:each) do
+        @other = Schedule.new(:frequency => :second, :day_of_week => Schedulicon::SATURDAY, :start_at => @start_at)
+      end
+      it "is true" do
+        subject.should eq(true)
+      end
+    end
+  end
 end

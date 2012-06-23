@@ -64,5 +64,16 @@ module Schedulicon
       to ||= (end_on || from.to_date >> 12)
       expression.dates(from, to)
     end
+    
+    # Public: override equality operator to compare values
+    # 
+    def ==(other)
+      return false unless other
+      return false unless other.respond_to?(:frequency) && other.frequency == frequency
+      return false unless other.respond_to?(:day_of_week) && other.day_of_week == day_of_week
+      return false unless other.respond_to?(:start_at) && other.start_at == start_at
+      return false unless other.respond_to?(:end_on) && other.end_on == end_on
+      true
+    end
   end
 end
