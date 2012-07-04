@@ -8,12 +8,22 @@
 module Schedulicon
   class DayInMonth
 
-    attr_reader :day, :ordinal
+    attr_reader :day, :frequency
 
-    def initialize(day, ordinal)
-      @day, @ordinal = day, ordinal
+    def initialize(day, frequency)
+      @day, @frequency = day, frequency
     end
 
+    def ordinal
+      {
+        :every => 0,
+        :first => 1,
+        :second => 2,
+        :third => 3,
+        :fourth => 4,
+        :last => -1
+      }[frequency]
+    end
     # Public: generate array of dates for the range
     #
     # starts_at     - DateTime range starts at
@@ -21,7 +31,7 @@ module Schedulicon
     #
     # Returns Array of DateTime
     def dates(start_at, end_on)
-      start_at.step(end_on).select { |d| week_matches(d) && d.cwday == day }
+      start_at.to_datetime.step(end_on).select { |d| week_matches(d) && d.cwday == day }
     end
 
     # Private: calculates whether date is in the ordinal week for the expression

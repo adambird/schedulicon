@@ -6,15 +6,15 @@ describe DayInMonth do
       @start_at = DateTime.new(2012, 6, 1, 19, 0)
       @end_on = DateTime.new(2012, 9, 1, 19, 0)
     end
-    
-    subject { DayInMonth.new(@day, @ordinal).dates(@start_at, @end_on) }
-    
+
+    subject { DayInMonth.new(@day, @frequency).dates(@start_at, @end_on) }
+
     context "when 3rd Thursday" do
       before(:each) do
         @day = Schedulicon::THURSDAY
-        @ordinal = 3
+        @frequency = :third
       end
-      
+
       it "first should be 21 June" do
         subject[0].should eq(DateTime.new(2012, 6, 21, 19, 0))
       end
@@ -28,11 +28,11 @@ describe DayInMonth do
         subject.count.should eq(3)
       end
     end
-    
+
     context "when last Tuesday" do
       before(:each) do
         @day = Schedulicon::TUESDAY
-        @ordinal = -1
+        @frequency = :last
       end
       it "first should be 26 June" do
         subject[0].should eq(DateTime.new(2012, 6, 26, 19, 0))
@@ -48,11 +48,11 @@ describe DayInMonth do
       end
     end
   end
-  
+
   describe "#week_from_end" do
-    
-    subject { DayInMonth.new(Schedulicon::THURSDAY, -1).week_from_end(@date) }
-    
+
+    subject { DayInMonth.new(Schedulicon::THURSDAY, :last).week_from_end(@date) }
+
     context "when in last week" do
       before(:each) do
         @date = DateTime.new(2012, 6, 28)
@@ -69,6 +69,6 @@ describe DayInMonth do
         subject.should eq(2)
       end
     end
-    
+
   end
 end

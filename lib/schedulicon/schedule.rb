@@ -5,14 +5,7 @@ require 'date'
 
 module Schedulicon
   class Schedule
-    FREQUENCIES = {
-      :every => 0,
-      :first => 1,
-      :second => 2,
-      :third => 3,
-      :fourth => 4,
-      :last => -1
-    }
+    FREQUENCIES = [:every, :first, :second, :third, :fourth, :last]
 
     attr_accessor :frequency, :day_of_week, :start_at, :end_on
 
@@ -53,7 +46,7 @@ module Schedulicon
       when :every
         DayOfWeek.new(day_of_week)
       else
-        DayInMonth.new(day_of_week, FREQUENCIES[frequency])
+        DayInMonth.new(day_of_week, frequency)
       end
     end
 
@@ -64,9 +57,9 @@ module Schedulicon
       to ||= (end_on || from.to_date >> 12)
       expression.dates(from, to)
     end
-    
+
     # Public: override equality operator to compare values
-    # 
+    #
     def ==(other)
       return false unless other
       return false unless other.respond_to?(:frequency) && other.frequency == frequency
@@ -75,7 +68,7 @@ module Schedulicon
       return false unless time_attribute_equal(other, :end_on)
       true
     end
-    
+
     def time_attribute_equal(other, name)
       return false unless other.respond_to? name
       return other.send(name).utc == self.send(name).utc if other.send(name) && self.send(name)

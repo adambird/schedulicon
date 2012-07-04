@@ -20,7 +20,7 @@ module Schedulicon
     #
     # Returns Array of DateTime
     def dates(start_at, end_on)
-      start_at.step(end_on).select { |d| d.cwday == @day }
+      start_at.to_datetime.step(end_on).select { |d| d.cwday == @day }
     end
   end
 end
