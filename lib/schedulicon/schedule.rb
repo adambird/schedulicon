@@ -55,7 +55,7 @@ module Schedulicon
     def dates(from=nil, to=nil)
       from ||= start_at
       to ||= (end_on || from.to_date >> 12)
-      expression.dates(from, to)
+      expression.dates(from, to).collect {|date| date.to_time }
     end
 
     # Public: override equality operator to compare values
