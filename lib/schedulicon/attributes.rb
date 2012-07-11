@@ -26,7 +26,14 @@ module Schedulicon
           define_method("#{name}_continues=") do |value| send(name).send("end_on=", nil) if value.to_sym != :until end
 
           define_method("#{name}_until") { send(name).end_on }
-          define_method("#{name}_until=") do |value| send(name).end_on = value if value && !value.blank? end
+          define_method("#{name}_until=") do |value|
+            return unless value
+            if value.is_a? String
+              return if value.empty?
+              value = Time.parse(value)
+            end
+            send(name).end_on = value
+          end
          end
       end
     end

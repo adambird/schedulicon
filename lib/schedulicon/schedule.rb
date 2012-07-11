@@ -54,7 +54,7 @@ module Schedulicon
     #
     def dates(from=nil, to=nil)
       from ||= start_at
-      to ||= (end_on || from.to_date >> 12)
+      to ||= ((end_on && end_on.to_date) || from.to_date >> 12)
       expression.dates(from, to).collect {|date| date.to_time }
     end
 

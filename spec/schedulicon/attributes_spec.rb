@@ -28,5 +28,25 @@ describe Attributes do
         @model.event_schedule_until.should be_nil
       end
     end
+    context "#until" do
+      context "when set with valid date string" do
+
+        subject { @model.event_schedule_until = "12/07/2012" }
+
+        it "sets the until to a valid time" do
+          subject
+          @model.event_schedule_until.should eq(Time.new(2012, 7, 12))
+        end
+      end
+      context "when set with empty date string" do
+
+        subject { @model.event_schedule_until = "" }
+
+        it "sets the until to a valid time" do
+          subject
+          @model.event_schedule_until.should be_nil
+        end
+      end
+    end
   end
 end

@@ -122,7 +122,7 @@ describe Schedule do
         @to = nil
       end
       it "calls the expression#dates with args" do
-        @expression.should_receive(:dates).with(@start_at, @end_on)
+        @expression.should_receive(:dates).with(@start_at, @end_on.to_date)
         subject
       end
       context "when end_on is nil" do
@@ -136,15 +136,15 @@ describe Schedule do
       end
     end
   end
-  
+
   describe "#==" do
     before(:each) do
       @start_at = random_time
       @schedule = Schedule.new(:frequency => :second, :day_of_week => Schedulicon::SATURDAY, :start_at => @start_at)
     end
-    
+
     subject { @schedule == @other }
-    
+
     context "when other is nil" do
       before(:each) do
         @other = nil
