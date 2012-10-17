@@ -21,9 +21,9 @@ module Schedulicon
     def to_hash
       hash = {
         'frequency' => frequency,
-        'start_at' => start_at.xmlschema,
         'day_of_week' => day_of_week
       }
+      hash['start_at'] = start_at.xmlschema if start_at
       hash['end_on'] = end_on.xmlschema if end_on
       hash
     end
