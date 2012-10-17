@@ -10,10 +10,10 @@ module Schedulicon
     attr_accessor :frequency, :day_of_week, :start_at, :end_on
 
     def initialize(attrs={})
-      @frequency = attrs[:frequency] || :every
-      @day_of_week = attrs[:day_of_week] || Schedulicon::MONDAY
-      @start_at = attrs[:start_at]
-      @end_on = attrs[:end_on]
+      @start_at = Time.xmlschema(attrs['start_at']).localtime if attrs['start_at']
+      @end_on = Time.xmlschema(attrs['end_on']).localtime if attrs['end_on']
+      @day_of_week = attrs['day_of_week'] ? attrs['day_of_week'].to_i : Schedulicon::MONDAY
+      @frequency = attrs['frequency'] ? attrs['frequency'].to_sym : :every
     end
 
     # Public: Hash of attributes that can be used to deserialise item from
@@ -28,15 +28,14 @@ module Schedulicon
       hash
     end
 
+    def attributes
+      to_hash
+    end
+
     # Public: load schedule from the hash
     #
     def self.load(attrs)
-      schedule = Schedule.new
-      schedule.start_at = Time.xmlschema(attrs['start_at']).localtime
-      schedule.end_on = Time.xmlschema(attrs['end_on']).localtime if attrs['end_on']
-      schedule.day_of_week = attrs['day_of_week'].to_i
-      schedule.frequency = attrs['frequency'].to_sym
-      schedule
+      Schedule.new(attrs)
     end
 
     # Public: generates the expression required to generate the schedule dates
